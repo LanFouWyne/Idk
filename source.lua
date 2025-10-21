@@ -298,7 +298,7 @@ do
 					Position = UDim2.new(1, -50, 0, 10),
 					Size = UDim2.new(0, 18, 0, 18),
 					ZIndex = 6,
-					Image = "rbxassetid://5012538583", -- Ikon Toggle
+					Image = "rbxassetid://5012538183", -- Ikon Toggle
 					ImageColor3 = themes.TextColor,
 					ScaleType = Enum.ScaleType.Fit
 				}),
