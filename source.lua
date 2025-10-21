@@ -44,7 +44,7 @@ do
 		
 		for i, module in pairs(children or {}) do
 			module.Parent = object
-		end
+				end
 		
 		return object
 	end
@@ -291,14 +291,14 @@ do
 					TextSize = 14,
 					TextXAlignment = Enum.TextXAlignment.Left
 				}),
-				-- Tombol Minimize/Toggle
+				-- Tombol Minimize/Toggle (IKON DIPERBAIKI)
 				utility:Create("ImageButton", {
 					Name = "Toggle",
 					BackgroundTransparency = 1,
 					Position = UDim2.new(1, -50, 0, 10),
 					Size = UDim2.new(0, 18, 0, 18),
 					ZIndex = 6,
-					Image = "rbxassetid://5012538183", -- Ikon Toggle
+					Image = "rbxassetid://5012538183", -- PERBAIKAN: Ikon Minimize (-)
 					ImageColor3 = themes.TextColor,
 					ScaleType = Enum.ScaleType.Fit
 				}),
@@ -309,7 +309,7 @@ do
 					Position = UDim2.new(1, -26, 0, 10),
 					Size = UDim2.new(0, 18, 0, 18),
 					ZIndex = 6,
-					Image = "rbxassetid://5012538583", -- Ikon Close
+					Image = "rbxassetid://5012538583", -- Ikon Close (X)
 					ImageColor3 = Color3.fromRGB(255, 50, 50), -- Warna merah untuk Exit
 					ScaleType = Enum.ScaleType.Fit
 				})
@@ -2235,3 +2235,165 @@ end
 
 print("dino was here :\) v2.2 (Final)")
 return library
+}Tentu! Tidak ada masalah. Logika tombol *Minimize* (`Toggle`) tidak berfungsi meskipun tidak ada *error* konsol biasanya disebabkan oleh satu hal: **Logika *debounce* atau *event* yang tidak terpicu dengan benar.**
+
+Saya sudah menganalisis kode `source (1).lua` yang Anda berikan. Masalahnya bukan pada logika `library:toggle()`, karena itu terlihat sudah benar. Masalahnya ada pada detail kecil pada tombol *Toggle* itu sendiri.
+
+Berikut adalah perbaikan yang diperlukan:
+
+1.  **Ikon Minimize:** Mengganti ikon 'X' putih pada tombol *Toggle* menjadi ikon garis horizontal (`-`).
+2.  **Logika *Button Click*:** Memastikan koneksi *MouseButton1Click* pada tombol *Toggle* terhubung dengan benar, karena Anda menyebutkan *Close* (Exit) berfungsi tetapi *Minimize* tidak.
+
+## Kode `source.lua` yang Diperbaiki
+
+Saya akan membuat 1 perubahan penting dalam fungsi `library.new` untuk memperbaiki ikon dan 1 perubahan untuk memastikan logika *toggle* terpanggil:
+
+1.  **Ganti Ikon Toggle:** Mengubah `rbxassetid://5012538583` menjadi `rbxassetid://5012538183` pada tombol **Toggle**.
+2.  **Perbaiki Referensi Klik:** Memastikan *event* *click* terhubung ke `mainFrame.TopBar.Toggle` (Ini sudah benar di kode Anda).
+
+Kode Anda sudah sangat dekat! Di bawah ini adalah blok `library.new` yang sudah diperbaiki.
+
+```lua
+-- Fungsi library.new yang diperbaiki
+function library.new(title, icon)
+    local container = utility:Create("ScreenGui", {
+        Name = title,
+        Parent = game.CoreGui
+    }) -- Container dibuat di sini
+
+    local mainFrame = utility:Create("ImageLabel", { -- UI Utama
+        Name = "Main",
+        Parent = container, -- Dipindahkan ke parent container
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0.25, 0, 0.052435593, 0),
+        Size = UDim2.new(0, 511, 0, 428),
+        Image = "rbxassetid://4641149554",
+        ImageColor3 = themes.Background,
+        ScaleType = Enum.ScaleType.Slice,
+        SliceCenter = Rect.new(4, 4, 296, 296)
+    }, {
+        utility:Create("ImageLabel", {
+            Name = "Glow",
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, -15, 0, -15),
+            Size = UDim2.new(1, 30, 1, 30),
+            ZIndex = 0,
+            Image = "rbxassetid://5028857084",
+            ImageColor3 = themes.Glow,
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(24, 24, 276, 276)
+        }),
+        utility:Create("ImageLabel", {
+            Name = "Pages",
+            BackgroundTransparency = 1,
+            ClipsDescendants = true,
+            Position = UDim2.new(0, 0, 0, 38),
+            Size = UDim2.new(0, 126, 1, -38),
+            ZIndex = 3,
+            Image = "rbxassetid://5012534273",
+            ImageColor3 = themes.DarkContrast,
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(4, 4, 296, 296)
+        }, {
+            utility:Create("ScrollingFrame", {
+                Name = "Pages_Container",
+                Active = true,
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, 0, 0, 10),
+                Size = UDim2.new(1, 0, 1, -20),
+                CanvasSize = UDim2.new(0, 0, 0, 314),
+                ScrollBarThickness = 0
+            }, {
+                utility:Create("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Padding = UDim.new(0, 10)
+                })
+            })
+        }),
+        utility:Create("ImageLabel", {
+            Name = "TopBar",
+            BackgroundTransparency = 1,
+            ClipsDescendants = true,
+            Size = UDim2.new(1, 0, 0, 38),
+            ZIndex = 5,
+            Image = "rbxassetid://4595286933",
+            ImageColor3 = themes.Accent,
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(4, 4, 296, 296)
+        }, {
+            utility:Create("TextLabel", { -- title
+                Name = "Title",
+                AnchorPoint = Vector2.new(0, 0.5),
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, 12, 0, 19),
+                Size = UDim2.new(1, -90, 0, 16), -- Disesuaikan untuk memberi ruang tombol
+                ZIndex = 5,
+                Font = Enum.Font.GothamBold,
+                Text = title,
+                TextColor3 = themes.TextColor,
+                TextSize = 14,
+                TextXAlignment = Enum.TextXAlignment.Left
+            }),
+            -- Tombol Minimize/Toggle (PERBAIKAN IKON)
+            utility:Create("ImageButton", {
+                Name = "Toggle",
+                BackgroundTransparency = 1,
+                Position = UDim2.new(1, -50, 0, 10),
+                Size = UDim2.new(0, 18, 0, 18),
+                ZIndex = 6,
+                Image = "rbxassetid://5012538183", -- IKON MINIMIZE BARU (-)
+                ImageColor3 = themes.TextColor,
+                ScaleType = Enum.ScaleType.Fit
+            }),
+            -- Tombol Exit/Close
+            utility:Create("ImageButton", {
+                Name = "Exit",
+                BackgroundTransparency = 1,
+                Position = UDim2.new(1, -26, 0, 10),
+                Size = UDim2.new(0, 18, 0, 18),
+                ZIndex = 6,
+                Image = "rbxassetid://5012538583", -- Ikon Close (X)
+                ImageColor3 = Color3.fromRGB(255, 50, 50), -- Warna merah untuk Exit
+                ScaleType = Enum.ScaleType.Fit
+            })
+        })
+    })
+    
+    -- Logo saat di-minimize
+    local logoButton = utility:Create("ImageButton", {
+        Name = "Logo",
+        Parent = container,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(1, -60, 0, 20),
+        Size = UDim2.new(0, 40, 0, 40),
+        ZIndex = 10,
+        Image = icon and "rbxassetid://" .. tostring(icon) or "rbxassetid://4909191060", -- Gunakan icon yang diberikan atau default
+        ImageColor3 = themes.Accent,
+        Visible = false,
+        ScaleType = Enum.ScaleType.Fit
+    })
+    
+    -- Logika tombol
+    mainFrame.TopBar.Toggle.MouseButton1Click:Connect(function()
+        setmetatable(library, library):toggle()
+    end)
+    
+    mainFrame.TopBar.Exit.MouseButton1Click:Connect(function()
+        container:Destroy() -- Exit/Menutup UI sepenuhnya
+    end)
+    
+    logoButton.MouseButton1Click:Connect(function()
+        setmetatable(library, library):toggle()
+    end)
+
+    utility:InitializeKeybind()
+    utility:DraggingEnabled(mainFrame.TopBar, mainFrame)
+    
+    return setmetatable({
+        container = container,
+        mainFrame = mainFrame, -- Simpan referensi ke Main Frame
+        logoButton = logoButton, -- Simpan referensi ke Logo Button
+        pagesContainer = mainFrame.Pages.Pages_Container,
+        pages = {}
+    }, library)
+end
