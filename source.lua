@@ -23,11 +23,10 @@ local themes = {
 	TextColor = Color3.fromRGB(255, 255, 255)
 }
 
--- FONT CUSTOM
--- Mengganti semua font menjadi Enum.Font.Monospace (gaya pixel/minecraft)
--- Anda dapat mengganti ini dengan ID asset font yang spesifik:
-local FONT_NORMAL = Enum.Font.Monospace
-local FONT_BOLD = Enum.Font.Monospace -- Menggunakan font yang sama untuk konsistensi
+-- FONT CUSTOM DIBATALKAN. Menggunakan font Gotham bawaan.
+local FONT_NORMAL = Enum.Font.Gotham
+local FONT_BOLD = Enum.Font.GothamBold
+local FONT_SEMIBOLD = Enum.Font.GothamSemibold
 
 do
 	function utility:Create(instance, properties, children)
@@ -455,7 +454,7 @@ do
 					BackgroundTransparency = 1,
 					Size = UDim2.new(1, 0, 0, 20),
 					ZIndex = 2,
-					Font = FONT_BOLD,
+					Font = FONT_SEMIBOLD,
 					Text = title,
 					TextColor3 = themes.TextColor,
 					TextSize = 12,
@@ -612,7 +611,7 @@ do
 				Position = UDim2.new(0, 10, 0, 8),
 				Size = UDim2.new(1, -40, 0, 16),
 				ZIndex = 4,
-				Font = FONT_BOLD,
+				Font = FONT_SEMIBOLD,
 				TextColor3 = themes.TextColor,
 				TextSize = 14.000,
 				TextXAlignment = Enum.TextXAlignment.Left
@@ -905,7 +904,7 @@ do
 					Position = UDim2.new(0, 5, 0, 0),
 					Size = UDim2.new(1, -10, 1, 0),
 					ZIndex = 3,
-					Font = FONT_BOLD,
+					Font = FONT_SEMIBOLD,
 					Text = default or "",
 					TextColor3 = themes.TextColor,
 					TextSize = 11,
@@ -1014,7 +1013,7 @@ do
 					ClipsDescendants = true,
 					Size = UDim2.new(1, 0, 1, 0),
 					ZIndex = 3,
-					Font = FONT_BOLD,
+					Font = FONT_SEMIBOLD,
 					Text = default and default.Name or "None",
 					TextColor3 = themes.TextColor,
 					TextSize = 11
@@ -1147,7 +1146,7 @@ do
 				Position = UDim2.new(0, 10, 0, 8),
 				Size = UDim2.new(1, -40, 0, 16),
 				ZIndex = 2,
-				Font = FONT_BOLD,
+				Font = FONT_SEMIBOLD,
 				Text = title,
 				TextColor3 = themes.TextColor,
 				TextSize = 14,
@@ -1633,7 +1632,7 @@ do
 				Position = UDim2.new(1, -30, 0, 6),
 				Size = UDim2.new(0, 20, 0, 16),
 				ZIndex = 3,
-				Font = FONT_BOLD,
+				Font = FONT_SEMIBOLD,
 				Text = default or min,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
@@ -2239,5 +2238,5 @@ do
 	end
 end
 
-print("Rawrrrr")
+print("dino was here :\) v2.1 (Fixed Font)")
 return library
